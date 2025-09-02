@@ -1,0 +1,33 @@
+<!-- Announcement Bar -->
+<div class="bg-dark text-white py-2">
+  <div class="container text-center">
+    <span class="small">
+      {{ section.settings.announcementbar_text }}
+    <strong>{{ section.settings.persentage }}</strong>
+    </span>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Announcementbar",
+    "settings": [
+      {
+        "type": "text",
+        "id": "announcementbar_text",
+        "label": "Announcementbar"
+      },
+      {
+        "type": "text",
+        "id": "persentage",
+        "label": "Persentage Text"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Announcementbar",
+        "category": "announcementbar"
+      }
+    ]
+  }
+{% endschema %}

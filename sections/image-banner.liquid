@@ -1,9 +1,15 @@
 <div class="image-banner-{{section.id}}">
-    <h2>Images Banner tested</h2>
+    <h1>This is the images</h1>
 </div>
-{% schema  %} 
+{% schema %}
 {
-    "name": "Image Banner",
-    "settings": []
+  "name": "Slideshow",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header"
+    }
+  ]
 }
 {% endschema %}
