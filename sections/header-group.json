@@ -8,20 +8,25 @@
  * ------------------------------------------------------------
  */
 {
-    "name": "Header Group",
-    "type": "header",
-    "sections": {
-        "announcementbar":{
-            "type": "announcementbar",
-            "settings": {}
-        },
-        "header":{
-            "type": "header",
-            "settings": {}
-        }
+  "name": "Header Group",
+  "type": "header",
+  "sections": {
+    "announcementbar": {
+      "type": "announcementbar",
+      "settings": {
+        "announcementbar_text": "Our discount on the price",
+        "persentage": "$50"
+      }
     },
-    "order": [
-        "announcementbar",
-        "header"
-    ]
+    "header": {
+      "type": "header",
+      "settings": {
+        "main-menu": "main-menu"
+      }
+    }
+  },
+  "order": [
+    "announcementbar",
+    "header"
+  ]
 }

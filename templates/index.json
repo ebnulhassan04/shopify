@@ -1,11 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-        "image_banner": {
-            "type": "image-banner",
-            "settings": {}
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "hero_slider_zAD33W": {
+          "type": "hero_slider",
+          "settings": {
+            "image": "shopify://shop_images/dark-wall-bedside-table_925x_dc8d8481-f9a4-4a67-b0e7-f86b934fd709.jpg",
+            "hero_heading": "Our discount offer for Running",
+            "hero_sub_heading": "<p>Best of the store and best discount offer is runnig. Everyone can be collect this offer and buy the best products.</p>",
+            "hero_button_text": "Buy Now",
+            "hero_button_link": ""
+          }
+        },
+        "hero_slider_9NE9kt": {
+          "type": "hero_slider",
+          "settings": {
+            "image": "shopify://shop_images/diy-organic-candle_925x_6f70100c-077f-4788-9d20-64ec66edafc8.jpg",
+            "hero_heading": "Best-selling products",
+            "hero_sub_heading": "<p>Best of the store and best products offer is runnig. Everyone can be collect this offer and buy the best products.</p>",
+            "hero_button_text": "Shop Now",
+            "hero_button_link": ""
+          }
         }
-    },
-    "order":[
-        "image_banner"
-    ]
+      },
+      "block_order": [
+        "hero_slider_zAD33W",
+        "hero_slider_9NE9kt"
+      ],
+      "settings": {
+        "slider_height": 600,
+        "auto_slide_times": 5,
+        "next_previous": true,
+        "dot": true
+      }
+    }
+  },
+  "order": [
+    "image_banner"
+  ]
 }
