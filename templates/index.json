@@ -51,7 +51,7 @@
       "settings": {
         "slider_height": 400,
         "auto_slide_times": 5,
-        "next_previous": true,
+        "next_previous": false,
         "dot": true
       }
     }
