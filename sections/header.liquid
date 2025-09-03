@@ -1,3 +1,86 @@
-<div class="heder-section">
-    <p>This is the header section</p>
-</div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold" href="{{ shop.url }}">
+      {% if settings.logo != blank %}
+        <img src="{{ settings.logo |  image_url: width: 150, height: 150 }}" alt="{{ shop.name }}">
+      {% else %}
+        {{ shop.name }}
+      {% endif %}
+    </a>
+    <!-- Mobile Toggle Button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar Links & Search -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <!-- Menu Items -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        {% for link in section.settings.main-menu.links %}
+        {% if link.links.size > 0 %}
+       
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ link.title }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for child-menu in link.links %}
+            <li><a class="dropdown-item" href="#">{{ child-menu.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        {%  else %}
+         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">{{ link.title }}</a>
+        </li>
+        {% endif %}
+      {% endfor %}
+
+      </ul>
+        
+      <!-- Search Bar -->
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "main-menu",
+      "label": "Select Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header",
+      "category": "menu"
+    }
+  ]
+
+}
+{% endschema %}

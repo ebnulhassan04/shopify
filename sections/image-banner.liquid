@@ -1,15 +1,337 @@
-<div class="image-banner-{{section.id}}">
-    <h1>This is the images</h1>
-</div>
-{% schema %}
-{
-  "name": "Slideshow",
-  "settings": [
-    {
-      "type": "text",
-      "id": "header",
-      "label": "Header"
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-  ]
-}
-{% endschema %}
+
+
+    /* Slider Container */
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100%; /* Full screen height */
+      overflow: hidden;
+    }
+
+    /* Slides Wrapper */
+    .slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Background Image */
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Dark Overlay */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+      z-index: 1;
+    }
+
+    /* Content (Heading, Subheading, Button) */
+    .slide-content {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+      z-index: 2;
+      color: white;
+      max-width: 600px;
+      text-align: left;
+      animation: fadeInUp 1s ease;
+    }
+
+    .slide-content h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    .slide-content p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      opacity: 0.9;
+    }
+
+    .slide-content .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: #ff6f61;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: 0.3s ease;
+    }
+
+    .slide-content .btn:hover {
+      background: #ff3b2e;
+      transform: scale(1.05);
+    }
+
+    /* Navigation Buttons */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 18px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10;
+      font-size: 22px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .prev:hover, .next:hover {
+      background: rgba(0, 0, 0, 0.85);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev {
+      left: 25px;
+    }
+
+    .next {
+      right: 25px;
+    }
+
+    /* Dots Navigation */
+    .dots {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .dot {
+      height: 14px;
+      width: 14px;
+      margin: 0 6px;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      display: inline-block;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .dot.active {
+      background-color: white;
+    }
+
+    /* Fade Animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .slide-content h1 {
+        font-size: 2rem;
+      }
+      .slide-content p {
+        font-size: 1rem;
+      }
+      .slide-content .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+      .prev, .next {
+        padding: 12px;
+        font-size: 18px;
+      }
+    }
+  </style>
+  {%  liquid 
+   assign slider_count = section.blocks.size
+  %}
+
+  <div class="slider" style="height:{{ section.settings.slider_height }}">
+    <div class="slides">
+      <!-- Slide 1 -->
+       {% for block in section.blocks %}
+      <div class="slide">
+        <img src="{{ block.settings.image |  image_url: width:'700'  }}" alt="Slide 1">
+        <div class="overlay"></div>
+        <div class="slide-content">
+          <h1>{{ block.settings.hero_heading }}</h1>
+          <p>{{ block.settings.hero_sub_heading }}</p>
+          <a href="{{ block.settings.hero_button_link }}" class="btn">{{ block.settings.hero_button_text }}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Navigation -->
+  {% if section.settings.next_previous and slider_count > 1 %}
+    <button class="prev">&#10094;</button>
+    <button class="next">&#10095;</button>
+  {% endif %}
+
+    <!-- Dots -->
+    {% if section.settings.dot and slider_count > 1 %}
+    <div class="dots"></div>
+    {% endif %}
+  </div>
+
+  <script>
+    const slides = document.querySelector('.slides');
+    const slide = document.querySelectorAll('.slide');
+    const dotsContainer = document.querySelector('.dots');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+
+    let index = 0;
+
+    // Create dots dynamically
+    slide.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        index = i;
+        updateSlider();
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateSlider() {
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+    }
+
+    function nextSlide() {
+      index = (index + 1) % slide.length;
+      updateSlider();
+    }
+
+    function prevSlide() {
+      index = (index - 1 + slide.length) % slide.length;
+      updateSlider();
+    }
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Auto slide every 5 seconds
+    setInterval(nextSlide, 5000);
+  </script> 
+ 
+ {% schema %}
+   {
+     "name": "Hero Slider",
+     "settings": [
+      {
+        "type": "header",
+        "content": "General Setting"
+      },
+      {
+        "type": "range",
+        "id": "slider_height",
+        "label": "Slider Height",
+        "min": 400,
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "default": 600
+      },
+      {
+        "type": "range",
+        "id": "auto_slide_times",
+        "label": "Auto Slide Time (second)",
+        "min": 2,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 5
+      },
+
+      {
+        "type": "checkbox",
+        "id": "next_previous",
+        "label": "Enable Next/Previous Icon",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "dot",
+        "label": "Enable Dot Icon",
+        "default": true
+      }
+       
+     ],
+     "blocks": [
+      {
+        "name": "Hero Slider",
+        "type": "hero_slider",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Upload Image"
+          },
+          {
+            "type": "text",
+            "id": "hero_heading",
+            "label": "Slide Heading"
+          },
+        {
+            "type": "richtext",
+            "id": "hero_sub_heading",
+            "label": "Slide Sub Heading"
+        },
+         {
+            "type": "text",
+            "id": "hero_button_text",
+            "label": "Slide Button Text"
+          },
+          {
+            "type": "url",
+            "id": "hero_button_link",
+            "label": "Slide Button Link"
+          }
+        ]
+      }
+     ],
+     "presets": [
+       {
+         "name": "Hero Slider",
+         "category": "slider"
+       }
+     ]
+   }
+ {% endschema %}

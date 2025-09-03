@@ -8,23 +8,20 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "Header Group",
-  "type": "header",
-  "sections": {
-    "announcementbar": {
-      "type": "announcementbar",
-      "settings": {
-        "announcementbar_text": "Free shipping on orders over",
-        "persentage": "$50"
-      }
+    "name": "Header Group",
+    "type": "header",
+    "sections": {
+        "announcementbar":{
+            "type": "announcementbar",
+            "settings": {}
+        },
+        "header":{
+            "type": "header",
+            "settings": {}
+        }
     },
-    "header": {
-      "type": "header",
-      "settings": {}
-    }
-  },
-  "order": [
-    "announcementbar",
-    "header"
-  ]
+    "order": [
+        "announcementbar",
+        "header"
+    ]
 }
