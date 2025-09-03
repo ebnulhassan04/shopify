@@ -10,7 +10,6 @@
     .slider {
       position: relative;
       width: 100%;
-      height: 100%; /* Full screen height */
       overflow: hidden;
     }
 
@@ -18,7 +17,6 @@
     .slides {
       display: flex;
       width: 100%;
-      height: 100%;
       transition: transform 0.6s ease-in-out;
     }
 
@@ -178,11 +176,11 @@
   %}
 
   <div class="slider" style="height:{{ section.settings.slider_height }}">
-    <div class="slides">
+    <div class="slides" style="height:{{ section.settings.slider_height }}">
       <!-- Slide 1 -->
        {% for block in section.blocks %}
       <div class="slide">
-        <img src="{{ block.settings.image |  image_url: width:'700'  }}" alt="Slide 1">
+        <img src="{{ block.settings.image |  image_url: width:'medium'  }}" alt="Slide 1">
         <div class="overlay"></div>
         <div class="slide-content">
           <h1>{{ block.settings.hero_heading }}</h1>
@@ -263,11 +261,11 @@
         "type": "range",
         "id": "slider_height",
         "label": "Slider Height",
-        "min": 400,
+        "min": 200,
         "max": 1000,
         "step": 10,
         "unit": "px",
-        "default": 600
+        "default": 300
       },
       {
         "type": "range",

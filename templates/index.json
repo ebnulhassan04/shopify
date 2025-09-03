@@ -8,55 +8,13 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "hero_slider_cKrgar": {
-          "type": "hero_slider",
-          "settings": {
-            "image": "shopify://shop_images/dark-wall-bedside-table_925x_dc8d8481-f9a4-4a67-b0e7-f86b934fd709.jpg",
-            "hero_heading": "New Summer Collection",
-            "hero_sub_heading": "<p>Discover the latest trends and upgrade your wardrobe with our stylish pieces.</p>",
-            "hero_button_text": "Shop Now",
-            "hero_button_link": ""
-          }
-        },
-        "hero_slider_3KkyXT": {
-          "type": "hero_slider",
-          "settings": {
-            "image": "shopify://shop_images/diy-organic-candle_925x_6f70100c-077f-4788-9d20-64ec66edafc8.jpg",
-            "hero_heading": "Exclusive Discounts",
-            "hero_sub_heading": "<p>Get up to 50% off on selected items for a limited time only.</p>",
-            "hero_button_text": "Shop Now",
-            "hero_button_link": ""
-          }
-        },
-        "hero_slider_pYEYDP": {
-          "type": "hero_slider",
-          "settings": {
-            "image": "shopify://shop_images/yellow-sofa-with-throw-pillows_925x_4bd3f6a7-f068-4aa7-9149-9d9f1bc24af0.jpg",
-            "hero_heading": "Stylish Accessories",
-            "hero_sub_heading": "<p>Complete your look with our premium collection of accessories.</p>",
-            "hero_button_text": "Shop now",
-            "hero_button_link": ""
-          }
+    "sections": {
+        "image_banner": {
+            "type": "image-banner",
+            "settings": {}
         }
-      },
-      "block_order": [
-        "hero_slider_cKrgar",
-        "hero_slider_3KkyXT",
-        "hero_slider_pYEYDP"
-      ],
-      "settings": {
-        "slider_height": 400,
-        "auto_slide_times": 6,
-        "next_previous": false,
-        "dot": true
-      }
-    }
-  },
-  "order": [
-    "image_banner"
-  ]
+    },
+    "order":[
+        "image_banner"
+    ]
 }
