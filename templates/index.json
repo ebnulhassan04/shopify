@@ -50,7 +50,7 @@
       ],
       "settings": {
         "slider_height": 400,
-        "auto_slide_times": 5,
+        "auto_slide_times": 6,
         "next_previous": false,
         "dot": true
       }
