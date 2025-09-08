@@ -8,11 +8,42 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-        "main-product": {
-            "type": "main-product",
-            "settings": {}
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "title_cM9m4c": {
+          "type": "title",
+          "settings": {}
+        },
+        "price_DDMxGk": {
+          "type": "price",
+          "settings": {}
+        },
+        "form_Wybynp": {
+          "type": "form",
+          "settings": {}
+        },
+        "description_LTYjfP": {
+          "type": "description",
+          "settings": {}
+        },
+        "share_4Ck34Q": {
+          "type": "share",
+          "settings": {}
         }
-    },
-    "order": [ "main-product"]
+      },
+      "block_order": [
+        "title_cM9m4c",
+        "price_DDMxGk",
+        "form_Wybynp",
+        "description_LTYjfP",
+        "share_4Ck34Q"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main-product"
+  ]
 }

@@ -8,13 +8,28 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-        "image_banner": {
-            "type": "image-banner",
-            "settings": {}
-        }
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "settings": {
+        "slide_height": 600,
+        "auto_slide_time": 5,
+        "show_navigation": true,
+        "show_dots": true
+      }
     },
-    "order":[
-        "image_banner"
-    ]
+    "featured_collection_36p4Dp": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "heading": "This is the feature Collection",
+        "sub_heading": "",
+        "collection": "collection"
+      }
+    }
+  },
+  "order": [
+    "image_banner",
+    "featured_collection_36p4Dp"
+  ]
 }
