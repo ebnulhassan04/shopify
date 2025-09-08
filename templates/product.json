@@ -27,18 +27,13 @@
         "description_LTYjfP": {
           "type": "description",
           "settings": {}
-        },
-        "share_4Ck34Q": {
-          "type": "share",
-          "settings": {}
         }
       },
       "block_order": [
         "title_cM9m4c",
         "price_DDMxGk",
         "form_Wybynp",
-        "description_LTYjfP",
-        "share_4Ck34Q"
+        "description_LTYjfP"
       ],
       "settings": {}
     }
