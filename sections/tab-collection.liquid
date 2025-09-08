@@ -1,0 +1,151 @@
+<section class="tab-collection-section py-5">
+  <div class="container">
+
+    <!-- Section Heading -->
+    <div class="text-center mb-4">
+      {% if section.settings.heading != blank %}
+        <h2 class="fw-bold">{{ section.settings.heading }}</h2>
+      {%- else -%}
+        <h2 class="fw-bold">Shop by Collection</h2>
+      {% endif %}
+
+      {% if section.settings.sub_heading != blank %}
+        <p class="text-muted">{{ section.settings.sub_heading }}</p>
+      {%- else -%}
+        <p class="text-muted">Explore our curated collections and find your style.</p>
+      {% endif %}
+    </div>
+
+    <!-- Tabs Navigation -->
+    <ul
+      class="nav nav-tabs justify-content-center mb-4"
+      id="collectionTabs"
+      role="tablist">
+      {% for block in section.blocks %}
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link {% if forloop.first %}active{% endif %}"
+            id="tab-{{ block.id }}"
+            data-bs-toggle="tab"
+            data-bs-target="#collection-{{ block.id }}"
+            type="button"
+            role="tab"
+            aria-controls="collection-{{ block.id }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+            {{ block.settings.collection_text }}
+          </button>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content" id="collectionTabsContent">
+      {% for block in section.blocks %}
+        <div
+          class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+          id="collection-{{ block.id }}"
+          role="tabpanel"
+          aria-labelledby="tab-{{ block.id }}">
+
+          <div class="row g-4">
+            {% if block.settings.tab_collection != blank %}
+              {% for product in block.settings.tab_collection.products limit: 8 %}
+                <div class="col-6 col-md-3">
+                  <div class="card h-100 shadow-sm border-0">
+                    {% if product.featured_image %}
+                      <img
+                        src="{{ product.featured_image | img_url: '400x' }}"
+                        class="card-img-top"
+                        alt="{{ product.title }}">
+                    {% else %}
+                      {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg w-100' }}
+                    {% endif %}
+                    <div class="card-body text-center">
+                      <h6 class="card-title mb-1">{{ product.title }}</h6>
+                      <p class="text-primary fw-bold mb-0">{{ product.price | money }}</p>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              {%- for item in (1..8) -%}
+                <div class="col-6 col-md-3">
+                  <div class="card h-100 shadow-sm border-0">
+                    {%- capture current -%}
+                          {%- cycle '1', '2','3', '4'-%}
+                        {%- endcapture -%}
+                    {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg w-100' }}
+                    <div class="card-body text-center">
+                      <h6 class="card-title mb-1">Men's Shirt</h6>
+                      <p class="text-primary fw-bold mb-0">$49.99</p>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .tab-collection-section .nav-tabs .nav-link {
+    border: none;
+    color: #555;
+    font-weight: 500;
+  }
+  .tab-collection-section .nav-tabs .nav-link.active {
+    border-bottom: 2px solid #007bff;
+    color: #007bff;
+  }
+  .tab-collection-section .card-img-top {
+    transition: transform 0.3s ease-in-out;
+  }
+  .tab-collection-section .card:hover .card-img-top {
+    transform: scale(1.05);
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Tab Collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "This is Heading"
+      }, {
+        "type": "richtext",
+        "id": "sub_heading",
+        "label": "Add sub heading for your choice"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Tab Collection",
+        "type": "tab_collection",
+        "settings": [
+          {
+            "type": "text",
+            "id": "collection_text",
+            "label": "Tab Text"
+          }, {
+            "type": "collection",
+            "id": "tab_collection",
+            "label": "Select Collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Tab Collection",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}

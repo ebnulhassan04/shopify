@@ -1,0 +1,146 @@
+<section class="side-section py-5">
+  <div class="container">
+
+    <!-- === 1. Heading and Short Description === -->
+    <div class="text-center mb-5">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fw-bold">{{ section.settings.heading }}</h2>
+      {%- else -%}
+        <h2 class="fw-bold">Build Your Future with Us</h2>
+      {%- endif -%}
+      {%- if section.settings.sub-heading != blank -%}
+        <p class="text-muted mt-3">
+        {{ section.settings.sub-heading }}
+      </p>
+      {%- else -%}
+        <p class="text-muted mt-3">
+        Add Short Description
+      </p>
+      {%- endif -%}
+    </div>
+
+    <!-- === 2. Side Image with Content === -->
+    {%- for block in section.blocks -%}
+    <div class="row align-items-center mb-5">
+      <!-- Left Side Image -->
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <img 
+          src="{{ block.settings.image |  image_url: width: auto}}" 
+          alt="{{ block.settings.alt }}" 
+          class="img-fluid rounded-3 w-100"
+        >
+      </div>
+
+      <!-- Right Side Content -->
+      <div class="col-lg-6">
+        <h3 class="fw-bold mb-3">{{ block.settings.column-heading }}</h3>
+        <p class="text-muted mb-4">
+          {{ block.settings.column-text }}
+        </p>
+        <a href="{{ block.settings.button-url }}" class="btn btn-primary px-4 py-2 rounded-pill">
+          {{ block.settings.button-text }}
+        </a>
+      </div>
+    </div>
+    {%- else -%}
+        <div class="row align-items-center mb-5">
+      <!-- Left Side Image -->
+      <div class="col-lg-6 mb-4 mb-lg-0">
+          {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+
+      <!-- Right Side Content -->
+      <div class="col-lg-6">
+        <h3 class="fw-bold mb-3">Heading</h3>
+        <p class="text-muted mb-4">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non laborum sunt nesciunt! Nostrum accusamus ipsa, consectetur nam fuga optio dicta.
+        </p>
+        <a href="#" class="btn btn-primary px-4 py-2 rounded-pill">
+          button
+        </a>
+      </div>
+    </div>
+{%- endfor -%}
+  </div>
+</section>
+
+<style>
+  /* Custom Styles */
+  .side-section h2 {
+    font-size: 2rem;
+  }
+  .side-section h3 {
+    font-size: 1.6rem;
+  }
+  .side-section p {
+    font-size: 1.1rem;
+    color: #555;
+  }
+  .side-section img {
+    object-fit: cover;
+  }
+  .side-section .btn-primary {
+    transition: 0.3s ease-in-out;
+  }
+  .side-section .btn-primary:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Image To Text",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+      },
+      {
+        "type": "richtext",
+        "id": "sub-heading",
+        "label": "Sub Heading",
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Image To Text",
+        "type": "image_to_text",
+        "settings": [
+           {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Upload Image"
+           },
+           {
+            "type": "text",
+            "id": "column-heading",
+            "label": "Heading"
+           },
+           {
+            "type": "textarea",
+            "id": "column-text",
+            "label": "Description"
+           },
+           {
+            "type": "text",
+            "id": "button-text",
+            "label": "Button Text"
+           },
+           {
+            "type": "url",
+            "id": "button-url",
+            "label": "Button URL"
+           }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image To Text",
+        "category": "Image To Text"
+        
+      }
+    ]
+  }
+{% endschema %}
