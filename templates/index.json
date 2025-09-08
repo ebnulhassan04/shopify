@@ -26,10 +26,39 @@
         "sub_heading": "",
         "collection": "product"
       }
+    },
+    "tab_collection_TaUnP4": {
+      "type": "tab-collection",
+      "blocks": {
+        "tab_collection_qDicXb": {
+          "type": "tab_collection",
+          "settings": {
+            "collection_text": "best",
+            "tab_collection": "collection"
+          }
+        },
+        "tab_collection_egxfx9": {
+          "type": "tab_collection",
+          "settings": {
+            "collection_text": "most",
+            "tab_collection": "product"
+          }
+        }
+      },
+      "block_order": [
+        "tab_collection_qDicXb",
+        "tab_collection_egxfx9"
+      ],
+      "name": "Tab Collection",
+      "settings": {
+        "heading": "This is Heading",
+        "sub_heading": ""
+      }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection_36p4Dp"
+    "featured_collection_36p4Dp",
+    "tab_collection_TaUnP4"
   ]
 }
