@@ -1,3 +1,72 @@
+<style>
+  /* Wrapper styling */
+  .shopify-payment-button {
+    margin-top: 10px;
+  }
+
+  /* Hidden default styles override */
+  .shopify-payment-button button {
+    background-color: #000 !important;
+    /* তোমার পছন্দের কালার */
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: bold !important;
+    padding: 15px 0 !important;
+    font-size: 18px !important;
+  }
+
+  /* === Product Gallery === */
+  .main-product-section .product-gallery img {
+    border-radius: 10px;
+  }
+  .main-product-section .carousel-control-prev-icon,
+  .main-product-section .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 10px;
+  }
+  .main-product-section .product-info h1 {
+    font-size: 2rem;
+  }
+
+  /* === Add to Cart Button === */
+  .main-product-section .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  .main-product-section .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  /* === Color Swatches === */
+  .color-swatch {
+    cursor: pointer;
+    position: relative;
+  }
+  .color-swatch input:checked + .swatch-circle {
+    border: 2px solid #007bff;
+    transform: scale(1.1);
+  }
+  .swatch-circle {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    transition: all 0.2s ease;
+  }
+
+  /* === Size Buttons === */
+  .size-button {
+    cursor: pointer;
+  }
+  .size-button input:checked + .btn {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+</style>
+
 <section class="main-product-section py-5">
   <div class="container">
     <div class="row g-5">
@@ -11,15 +80,14 @@
             data-bs-ride="carousel">
             <div class="carousel-inner">
               {% for image in product.images %}
-                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <div class="carousel-item {% if forloop.first %} active {% endif %} ">
                   <img
-                    src="{{ image.src | image_url: width: 800 }}"
+                    src="{{ image.src |  image_url: width: auto }}"
                     class="d-block w-100 rounded shadow-sm"
-                    alt="{{ image.alt | escape }}">
+                    alt="Product Image 1">
                 </div>
               {% endfor %}
             </div>
-
             {% if product.images.size > 1 %}
               <button
                 class="carousel-control-prev"
@@ -44,54 +112,38 @@
       <div class="col-md-6">
         <div class="product-info">
 
-          {% for block in section.blocks %}
-            {% case block.type %}
+          <!-- Product Title -->
+          {% form 'product'
+            , product %}
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'title' %}
+                  <h1 class="fw-bold mb-3">{{ product.title }}</h1>
 
-              <!-- Product Title -->
-              {% when 'title' %}
-                <h1 class="fw-bold mb-3" {{ block.shopify_attributes }}>
-                  {{ product.title }}
-                </h1>
+                <!-- Product Price -->
+                {%- when 'price' -%}
+                  <div class="mb-3">
+                    {% if product.compare_at_price > product.price %}
+                      <span class="text-muted text-decoration-line-through me-2">{{ product.compare_at_price | money }}</span>
+                    {% endif %}
+                    {% if product.price %}
+                      <span class="fs-4 fw-bold text-primary">{{ product.price | money }}</span>
+                    {% endif %}
+                  </div>
 
-              <!-- Product Price -->
-              {% when 'price' %}
-                <div class="mb-3" {{ block.shopify_attributes }}>
-                  {% if product.compare_at_price_max > product.price %}
-                    <span class="text-muted text-decoration-line-through me-2">
-                      {{ product.compare_at_price_max | money }}
-                    </span>
-                  {% endif %}
-                  <span class="fs-4 fw-bold text-primary">
-                    {{ product.selected_or_first_available_variant.price | money }}
-                  </span>
-                </div>
+                <!-- Stock Availability -->
+                {%- when 'stock' -%}
+                  <div class="mb-3">
+                    {% assign current_stock = product.selected_or_first_available_variant %}
+                    {% if current_stock.available %}
+                      <p class="text-success fw-semibold">In Stock — Only {{ current_stock.inventory_quantity }} left!</p>
+                    {%- else -%}
+                      <p class="text-danger fw-semibold">Out of Stock</p>
+                    {% endif %}
+                  </div>
 
-              <!-- Product Form -->
-              {% when 'form' %}
-                {% form 'product'
-                  , product %}
-                  {% if product.variants.size > 1 %}
-                    <div class="mb-3">
-                      <label class="form-label fw-semibold">Select Option</label>
-                      <select class="form-select" name="id">
-                        {% for variant in product.variants %}
-                          <option
-                            value="{{ variant.id }}"
-                            {% if variant == product.selected_or_first_available_variant %}
-                            selected{% endif %}>
-                            {{ variant.title }} - {{ variant.price | money }}
-                          </option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                  {% else %}
-                    <input
-                      type="hidden"
-                      name="id"
-                      value="{{ product.selected_or_first_available_variant.id }}">
-                  {% endif %}
-
-                  <!-- Quantity Selector -->
+                <!-- Quantity Selector -->
+                {%- when 'quantity' -%}
                   <div class="d-flex align-items-center mb-3">
                     <label class="me-2 fw-semibold">Qty:</label>
                     <input
@@ -102,87 +154,63 @@
                       class="form-control w-25">
                   </div>
 
-                  <!-- Add to Cart Button -->
+                <!-- Add to Cart & Buy Now Buttons -->
+                {%- when 'add_to_card' -%}
                   <div class="d-grid gap-2">
                     <button
                       type="submit"
-                      name="add"
                       class="btn btn-primary btn-lg w-100"
                       {% unless product.available %}
-                      disabled{% endunless %}>
+                      Desible
+                      {% endunless %}>
                       {% if product.available %}
                         Add to Cart
-                      {% else %}
+                      {%- else -%}
                         Sold Out
                       {% endif %}
                     </button>
-
-                    <!-- Dynamic Buy Now Button -->
-                    <div class="shopify-payment-button">
-                      {{ form | payment_button }}
-                    </div>
                   </div>
-                {% endform %}
+                {%- when 'buy_now' -%}
+                  <!-- Buy Now Button -->
+                  <div class="shopify-payment-button w-100">
+                    {{ form | payment_button }}
+                  </div>
 
-              <!-- Product Description -->
-              {% when 'description' %}
-                <div class="mt-4" {{ block.shopify_attributes }}>
-                  <h5 class="fw-bold">Description</h5>
-                  <p class="text-muted">{{ product.description }}</p>
-                </div>
+                <!-- Product Description -->
+                {%- when 'description' -%}
+                  <div class="mt-4">
+                    <h5 class="fw-bold">Description</h5>
+                    <p class="text-muted">
+                      {{ product.description }}
+                    </p>
+                  </div>
 
-              <!-- Social Share -->
-              {% when 'share' %}
-                <div class="mt-4" {{ block.shopify_attributes }}>
-                  <h6 class="fw-semibold">Share this product</h6>
-                  <a
-                    href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ product.url }}"
-                    class="btn btn-outline-primary btn-sm me-2"
-                    target="_blank">Facebook</a>
-                  <a
-                    href="https://twitter.com/share?url={{ shop.url }}{{ product.url }}"
-                    class="btn btn-outline-info btn-sm me-2"
-                    target="_blank">Twitter</a>
-                  <a
-                    href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}"
-                    class="btn btn-outline-danger btn-sm"
-                    target="_blank">Pinterest</a>
-                </div>
-
-            {% endcase %}
-          {% endfor %}
-
+                <!-- Social Share -->
+                {%- when 'share' -%}
+                  <div class="mt-4">
+                    <h6 class="fw-semibold">Share this product</h6>
+                    <a
+                      href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ product.url }}"
+                      class="btn btn-outline-primary btn-sm me-2"
+                      target="_blank">Facebook</a>
+                    <a
+                      href="https://twitter.com/share?url={{ shop.url }}{{ product.url }}"
+                      class="btn btn-outline-info btn-sm me-2"
+                      target="_blank">Twitter</a>
+                    <a
+                      href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}"
+                      class="btn btn-outline-danger btn-sm"
+                      target="_blank">Pinterest</a>
+                  </div>
+              {% endcase %}
+            {% endfor %}
+          {% endform %}
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<style>
-  .main-product-section .product-gallery img {
-    border-radius: 10px;
-  }
-
-  .main-product-section .carousel-control-prev-icon,
-  .main-product-section .carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    padding: 10px;
-  }
-
-  .main-product-section .product-info h1 {
-    font-size: 2rem;
-  }
-
-  .main-product-section .btn-primary {
-    background-color: #007bff;
-    border: none;
-  }
-
-  .main-product-section .btn-primary:hover {
-    background-color: #0056b3;
-  }
-</style>
 
 {% schema %}
   {
@@ -190,34 +218,77 @@
     "settings": [],
     "blocks": [
       {
+        "name": "title",
         "type": "title",
-        "name": "Product Title",
         "limit": 1
+
       },
       {
+        "name": "price",
         "type": "price",
-        "name": "Product Price",
         "limit": 1
+
       },
       {
-        "type": "form",
-        "name": "Add to Cart Form",
+        "name": "quantity",
+        "type": "quantity",
         "limit": 1
+
       },
       {
-        "type": "description",
-        "name": "Product Description",
+        "name": "add to card",
+        "type": "add_to_card",
         "limit": 1
+
       }, {
-        "type": "share",
-        "name": "Social Share",
+        "name": "Buy Now",
+        "type": "buy_now",
         "limit": 1
+
+      }, {
+        "name": "stock",
+        "type": "stock",
+        "limit": 1
+
+      }, {
+        "name": "description",
+        "type": "description",
+        "limit": 1
+
+      }, {
+        "name": "share",
+        "type": "share",
+        "limit": 1
+
       }
     ],
     "presets": [
       {
-        "name": "Default Product Page"
+        "name": "Product Page",
+        "blocks": [
+          {
+            "type": "title"
+          },
+          {
+            "type": "price"
+          },
+          {
+            "type": "stock"
+          },
+          {
+            "type": "quantity"
+          }, {
+            "type": "add_to_card"
+          }, {
+            "type": "buy_now"
+          }, {
+            "type": "description"
+          }, {
+            "type": "share"
+          }
+        ]
       }
     ]
   }
+
 {% endschema %}

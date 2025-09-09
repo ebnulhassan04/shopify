@@ -8,57 +8,13 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "settings": {
-        "slide_height": 600,
-        "auto_slide_time": 5,
-        "show_navigation": true,
-        "show_dots": true
-      }
-    },
-    "featured_collection_36p4Dp": {
-      "type": "featured-collection",
-      "name": "Featured Collection",
-      "settings": {
-        "heading": "This is the feature Collection",
-        "sub_heading": "",
-        "collection": "product"
-      }
-    },
-    "tab_collection_TaUnP4": {
-      "type": "tab-collection",
-      "blocks": {
-        "tab_collection_qDicXb": {
-          "type": "tab_collection",
-          "settings": {
-            "collection_text": "best",
-            "tab_collection": "collection"
-          }
-        },
-        "tab_collection_egxfx9": {
-          "type": "tab_collection",
-          "settings": {
-            "collection_text": "most",
-            "tab_collection": "product"
-          }
+    "sections": {
+        "image_banner": {
+            "type": "image-banner",
+            "settings": {}
         }
-      },
-      "block_order": [
-        "tab_collection_qDicXb",
-        "tab_collection_egxfx9"
-      ],
-      "name": "Tab Collection",
-      "settings": {
-        "heading": "This is Heading",
-        "sub_heading": ""
-      }
-    }
-  },
-  "order": [
-    "image_banner",
-    "featured_collection_36p4Dp",
-    "tab_collection_TaUnP4"
-  ]
+    },
+    "order":[
+        "image_banner"
+    ]
 }
